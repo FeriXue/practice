@@ -10,6 +10,8 @@ public:
     StrVec(): elements(nullptr), first_free(nullptr), cap(nullptr) {};
     StrVec(const StrVec&);
     StrVec& operator=(const StrVec&);
+    StrVec(StrVec&&) noexcept;
+    StrVec &operator=(StrVec &&) noexcept;
     ~StrVec();
 
     void push_back(const string&);
@@ -99,7 +101,22 @@ void StrVec::reallocate()
     cap = elements + new_capacity;
 }
 
+StrVec::StrVec(StrVec &&s) noexcept : elements(s.elements), first_free(s.first_free), cap(s.cap) 
+{
+    s.elements = s.first_free = s.cap = nullptr;
+}
 
+StrVec &StrVec::operator=(StrVec &&rhs) noexcept
+{
+    if (this != &rhs) {
+        free();
+        elements = rhs.elements;
+        first_free =rhs.first_free;
+        cap = rhs.cap;
+        rhs.elements = rhs.first_free = rhs.cap = nullptr;
+    }
+    return *this;
+}
 
 
 

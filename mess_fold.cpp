@@ -32,7 +32,13 @@ private:
     void add_to_folders(const Message&);
     // 从所有文件夹中每个包含该信息的文件夹中删除该信息；
     void remove_from_folders();
+    void move_folders(Message*);
 } ;
+
+void Message::move_folders(Message *m)
+{
+    // p479
+}
 
 void Message::save_to(Folders &f)
 {

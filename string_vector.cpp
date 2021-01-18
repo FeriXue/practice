@@ -12,6 +12,13 @@ public:
     StrVec& operator=(const StrVec&);
     StrVec(StrVec&&) noexcept;
     StrVec &operator=(StrVec &&) noexcept;
+    StrVec &operator=(initializer_list<string>);
+    string &operator[](size_t n) {
+        return elements[n]; // 下标运算符返回的是元素的引用；
+    }
+    const string &operator[](size_t n) const {
+        return elements[n];
+    }
     ~StrVec();
 
     void push_back(const string&);
@@ -79,6 +86,15 @@ StrVec &StrVec::operator=(const StrVec &rhs)
     free();
     elements = data.first;
     first_free = cap = data.second;
+    return *this;
+}
+
+StrVec &StrVec::operator=(initializer_list<string> il)
+{
+    auto data = alloc_n_copy(il.begin(), il.end());
+    free();
+    elements = data.first;
+    cap = first_free = data.second;
     return *this;
 }
 
